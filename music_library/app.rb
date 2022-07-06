@@ -1,15 +1,19 @@
 # file: app.rb
-
 require_relative 'lib/database_connection'
+require_relative 'lib/album_repository'
 
-# We need to give the database name to the method `connect`.
-DatabaseConnection.connect('music_library_test')
+DatabaseConnection.connect('music_library')
 
-# Perform a SQL query on the database and get the result set.
-sql = 'SELECT id, title FROM albums;'
-result = DatabaseConnection.exec_params(sql, [])
+music_library = AlbumRepository.new
 
-# Print out each record from the result set.
-result.each do |record|
-  p record
+music_library.all.each do |album|
+  p album
 end
+
+p music_library.find_by_title('Doolittle')
+p music_library.find_by_id(5)
+
+p music_library.create('Ludwig van Beethoven: Symphonien 1-9', '2019', '1')
+
+p music_library.update(17, 5)
+p music_library.delete(18)

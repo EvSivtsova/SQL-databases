@@ -1,3 +1,5 @@
+require_relative "./album"
+
 class AlbumRepository
     def all
       sql = 'SELECT id, title, release_year, artist_id FROM albums;'
