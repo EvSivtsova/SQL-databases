@@ -102,21 +102,21 @@ class StudentRepository
   end
 
   # Creates a new Student object
-  def create(student)
+  def create(name, cohort_id)
     # Executes the SQL query:
     # INSERT INTO students (name, cohort_id) VALUES('Mich', '3');
     # returns nothing
   end
 
   # Update a student object record
-  def update(student)
+  def update(name, cohort_id)
     # Executes the SQL query:
     # UPDATE students SET cohort_id = '1' WHERE name = "Mich';
     # returns nothing
   end
 
   # Deletes a student object
-  def delete(student)
+  def delete(id)
     # Executes the SQL query:
     # DELETE FROM students WHERE id = '6';
     # returns nothing
