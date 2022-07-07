@@ -7,13 +7,5 @@ DatabaseConnection.connect('music_library')
 music_library = AlbumRepository.new
 
 music_library.all.each do |album|
-  p album
+  puts "#{album.id}. #{album.title}, #{album.release_year} by #{album.artist_id}"
 end
-
-p music_library.find_by_title('Doolittle')
-p music_library.find_by_id(5)
-
-p music_library.create('Ludwig van Beethoven: Symphonien 1-9', '2019', '1')
-
-p music_library.update(17, 5)
-p music_library.delete(18)

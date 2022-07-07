@@ -117,23 +117,26 @@ class AlbumRepository
   end
 
   # creates an Album object and adds it to the repository
-  def create(title, release_year, artist_id )
+  def create(new_album)
     # Executes the SQL query:
     # INSERT INTO albums (title, release_year, artist_id) VALUES($1, $2, $3);
     # Three arguments: the title (string), release_year (int), artist_id (int)
+    # returns nothing
   end
 
   # updates an Album object
-  def update(id, artist_id)
+  def update(artist)
     # Executes the SQL query:   
     # 'UPDATE albums SET artist_id = $2 WHERE id = $1;
     # Two arguments: the id (int), artist_id (int)
+    # returns nothing
   end
 
   def delete(id)
     # Executes the SQL query:
     # DELETE FROM albums WHERE id = $1;
     # One argument: the id (strinintg)
+    # returns nothing
   end
 end
 ```
@@ -180,24 +183,28 @@ albums[0].artist_id # =>  3
 # 3
 #Create an album
 repo = AlbumRepository.new
-repo.create('The Fat of the Land', '1997', '5')
+album = Album.new
+album.id = 13
+album.title = 'The Fat of the Land'
+album.release_year =  1997
+album.artist_id =  5
+repo.create(album)
 albums = repo.all
-albums.length # =>  13
-albums[-1].id # =>  13
-albums[-1].title # =>  'The Fat of the Land'
-albums[-1].release_year # =>  1997
-albums[-1].artist_id # =>  5
-
+albums #=> to include title: 'The Fat of the Land'
 
 # 4 
 # Update album's artist by its title
 repo = AlbumRepository.new
-repo.update('1', '3')
 album = repo.find_by_id('1')
-album.id # =>  1
-album.title # =>  'Doolittle'
-album.release_year # =>  1989
-album.artist_id # =>  3
+album.album.title =  'NotDoolittle'
+album.release_year =  2021
+album.artist_id =  3
+repo.update(album)
+updated_album = repo.find_by_id('1')
+updated_album.id # =>  1
+updated_album.title # =>  'NotDoolittle'
+updated_album.release_year # =>  2021
+updated_album.artist_id # =>  3
 
 # 5
 # Deletes an album record from the data

@@ -43,28 +43,38 @@ describe AlbumRepository do
 
   it " creates an Album instance and adds it to the database" do
     repo = AlbumRepository.new
-    repo.create('The Fat of the Land', '1997', '5')
+    album = Album.new
+    album.id = 1
+    album.title = 'The Fat of the Land'
+    album.release_year =  1997
+    album.artist_id =  5
+    repo.create(album)
+    expect(repo.create(album)).to eq nil
     albums = repo.all
-    expect(albums.length).to eq 13
-    expect(albums[-1].id).to eq 13
-    expect(albums[-1].title).to eq 'The Fat of the Land'
-    expect(albums[-1].release_year).to eq 1997
-    expect(albums[-1].artist_id).to eq 5
+    expect(albums).to include(
+      have_attributes(title: 'The Fat of the Land')
+      )
   end
  
   it "updates artist_id for an Album object searched by its id" do
     repo = AlbumRepository.new
-    repo.update('1', '3')
-    album = repo.find_by_id('1')
-    expect(album.id).to eq 1
-    expect(album.title).to eq 'Doolittle'
-    expect(album.release_year).to eq 1989
-    expect(album.artist_id).to eq 3
+    album = repo.find_by_id(1)
+    album.title = 'NotDoolittle'
+    album.release_year = 2021
+    album.artist_id = 3
+    repo.update(album)
+    expect(repo.update(album)).to eq nil
+    updated_album = repo.find_by_id(1)
+    expect(updated_album.id).to eq 1
+    expect(updated_album.title).to eq 'NotDoolittle'
+    expect(updated_album.release_year).to eq 2021
+    expect(updated_album.artist_id).to eq 3
   end
 
   it "deletes an Album instance from the database by its id" do
     repo = AlbumRepository.new
     repo.delete('1')
+    expect(repo.delete('1')).to eq nil
     albums = repo.all
     expect(albums.length).to eq 11
     expect(repo.find_by_title('Doolittle')).to eq nil
