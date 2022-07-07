@@ -16,24 +16,16 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE music_library_test RESTART IDENTITY; -- replace with your own table name.
+CREATE TABLE "public"."albums" 
+    "id" SERIAL,
+    "title" text,
+    "release_year" int4,
+    "artist_id" int4,
 
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
-
-INSERT INTO "public"."albums" ("title", "release_year", "artist_id") VALUES
-('Doolittle', 1989, 1),
-('Surfer Rosa', 1988, 1),
-('Waterloo', 1974, 2),
-('Super Trouper', 1980, 2),
-('Bossanova', 1990, 1),
-('Lover', 2019, 3),
-('Folklore', 2020, 3),
-('I Put a Spell on You', 1965, 4),
-('Baltimore', 1978, 4),
-( 'Here Comes the Sun', 1971, 4),
-( 'Fodder on My Wings', 1982, 4),
-( 'Ring Ring', 1973, 2);
+CREATE TABLE "public"."artists" 
+    "id" SERIAL,
+    "name" text,
+    "genre" text,
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -58,6 +50,18 @@ end
 # (in lib/album_repository.rb)
 class AlbumRepository
 end
+
+# Table name: artists
+
+# Model class
+# (in lib/artist.rb)
+class Artist
+end
+
+# Repository class
+# (in lib/artist_repository.rb)
+class ArtistRepository
+end
 ```
 
 4. Implement the Model class
@@ -76,6 +80,16 @@ class Album
   attr_accessor :id, :title, :release_year, :artist_id
 end
 
+
+# Table name: artists
+
+# Model class
+# (in lib/artist.rb)
+
+class Artist
+  # Replace the attributes by your own columns.
+  attr_accessor :id, :name, :genre
+end
 ```
 
 5. Define the Repository Class interface
@@ -137,6 +151,23 @@ class AlbumRepository
     # DELETE FROM albums WHERE id = $1;
     # One argument: the id (strinintg)
     # returns nothing
+  end
+end
+```
+```ruby
+# Table name: artists
+
+# Repository class
+# (in lib/artist_repository.rb)
+
+class ArtistRepository
+
+  # Selecting all records
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT id, name, genre FROM artists;
+    # Returns an array of Artist objects.
   end
 end
 ```
