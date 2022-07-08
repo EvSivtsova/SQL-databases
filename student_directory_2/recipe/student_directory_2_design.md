@@ -168,7 +168,7 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/cohort.rb)
 class Cohort
-  attr_accessor :id, :name,:starting_date 
+  attr_accessor :id, :name,:starting_date, :students
 
   def initialize
     @students = []
@@ -203,7 +203,7 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 class CohortRepository
 
-  # Gets an array of cohorts with their students depending on their cohort_id value
+  # Gets a cohort with associated students depending on their cohort_id value
   def find_with_students(id)
     # Executes the SQL query:
     # SELECT cohorts.id AS cohort_id, 
@@ -215,7 +215,7 @@ class CohortRepository
     # JOIN students 
     # ON cohorts.id = students.cohort_id
     # WHERE cohorts.id = $1;';
-    # Returns an array of cohort objects each with the array of Student object.
+    # Returns a Cohort object each with the array of Student objects.
   end
 end
 ```
@@ -229,7 +229,7 @@ These examples will later be encoded as RSpec tests.
 ```ruby
 # 1
 
-# Get all the cohorts with their students
+# Get one cohorts with its students based in its ID
 
 cohort_repository = CohortRepository.new
 cohort = cohort_repository.find_with_students(1)
