@@ -215,7 +215,6 @@ albums[0].artist_id # =>  3
 #Create an album
 repo = AlbumRepository.new
 album = Album.new
-album.id = 13
 album.title = 'The Fat of the Land'
 album.release_year =  1997
 album.artist_id =  5
@@ -227,7 +226,7 @@ albums #=> to include title: 'The Fat of the Land'
 # Update album's artist by its title
 repo = AlbumRepository.new
 album = repo.find_by_id('1')
-album.album.title =  'NotDoolittle'
+album.title =  'NotDoolittle'
 album.release_year =  2021
 album.artist_id =  3
 repo.update(album)
